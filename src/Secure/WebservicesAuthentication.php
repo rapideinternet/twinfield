@@ -62,7 +62,7 @@ class WebservicesAuthentication extends AuthenticatedConnection
         [$this->sessionID, $this->cluster] = $sessionService->getSessionIdAndCluster($this->username, $this->password, $this->organization);
     }
 
-    protected function getSoapHeaders()
+    public function getSoapHeaders()
     {
         return new \SoapHeader(
             'http://www.twinfield.com/',

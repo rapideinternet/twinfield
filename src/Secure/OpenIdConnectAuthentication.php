@@ -92,7 +92,7 @@ class OpenIdConnectAuthentication extends AuthenticatedConnection
     /**
      * @throws InvalidAccessTokenException
      */
-    protected function getSoapHeaders(): \SoapHeader
+    public function getSoapHeaders(): \SoapHeader
     {
         $this->throwExceptionMissingAccessToken();
 

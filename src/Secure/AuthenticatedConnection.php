@@ -20,7 +20,7 @@ abstract class AuthenticatedConnection
     /**
      * @return \SoapHeader|\SoapHeader[]|null
      */
-    abstract protected function getSoapHeaders();
+    abstract public function getSoapHeaders();
 
     /**
      * Get the cluster where subsequent requests should be sent.

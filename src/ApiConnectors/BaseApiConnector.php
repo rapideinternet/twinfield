@@ -7,6 +7,7 @@ use PhpTwinfield\Exception;
 use PhpTwinfield\Response\MappedResponseCollection;
 use PhpTwinfield\Response\Response;
 use PhpTwinfield\Secure\AuthenticatedConnection;
+use PhpTwinfield\Services\DeclarationService;
 use PhpTwinfield\Services\FinderService;
 use PhpTwinfield\Services\ProcessXmlService;
 use PhpTwinfield\Services\SelectOfficeService;
@@ -181,5 +182,16 @@ abstract class BaseApiConnector implements LoggerAwareInterface
     protected function getSessionService(): SessionService
     {
         return $this->connection->getAuthenticatedClient(Services::SESSION());
+    }
+
+
+    public function getDeclarationService(): DeclarationService
+    {
+        return $this->connection->getAuthenticatedClient(Services::DECLARATION());
+    }
+
+    public function getConnection(): AuthenticatedConnection
+    {
+        return $this->connection;
     }
 }

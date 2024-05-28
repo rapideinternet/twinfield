@@ -1,0 +1,113 @@
+<?php
+
+namespace PhpTwinfield\Services;
+
+use PhpTwinfield\Response\Response;
+
+class DeclarationService extends BaseService
+{
+
+    /*
+     * https://accounting.twinfield.com/webservices/documentation/#/ApiReference/Miscellaneous/Declaration
+     * https://api.accounting2.twinfield.com/webservices/declarations.asmx
+     */
+
+
+    /*
+     * This function keeps the auth method (openID or sessionId) intact but overrides the office code
+     */
+    public function setSoapHeadersFromArray($headerData)
+    {
+        // Define the namespace for the Header element
+        $namespace = 'http://www.twinfield.com/';
+
+        $innerHeaders = [];
+
+        foreach ($headerData as $key => $value) {
+            $innerHeaders[] = new \SoapVar(
+                new \SoapVar($value, XSD_STRING, null, null, $key, $namespace),
+                SOAP_ENC_OBJECT
+            );
+        }
+        // Wrap the inner headers in the Header element
+        $headerContainer = new \SoapVar(
+            new \SoapVar($innerHeaders, SOAP_ENC_OBJECT), SOAP_ENC_OBJECT, null,
+            null,
+            'Header',
+            $namespace
+        );
+
+        $soapHeader = new \SoapHeader($namespace, 'Header', $headerContainer);
+
+        $this->__setSoapHeaders([$soapHeader]);
+    }
+
+    protected function WSDL(): string
+    {
+        return '/webservices/declarations.asmx?wsdl';
+    }
+
+    public function declarationCount($officeCode): \stdClass
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->GetNumberOfDeclarations([
+            'companyCode' => $officeCode,
+        ]);
+    }
+
+    public function summaries($officeCode): \stdClass
+    {
+        return $this->GetAllSummaries([
+            'companyCode' => $officeCode
+        ]);
+    }
+
+    public function vatReturnXbrl($documentId)
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->GetVatReturnAsXbrl([
+            'documentId' => $documentId,
+            'isMessageIdRequired' => false // If set to True the MessageReferenceSupplierICT element will be filled in.
+        ]);
+    }
+
+    public function icpReturnXbrl($documentId)
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->GetIctReturnAsXbrl([ // is this a typo? should it be icpReturnXbrl?
+            'documentId' => $documentId,
+            'isMessageIdRequired' => false // If set to True the MessageReferenceSupplierICT element will be filled in.
+        ]);
+    }
+
+    public function setApproved($documentId)
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->SetToApproved([
+            'documentId' => $documentId
+        ]);
+    }
+
+    public function setRejected($documentId, $reason)
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->SetToSent([
+            'DocumentId' => $documentId,
+            'Reason' => $reason
+        ]);
+    }
+
+    public function setSent($documentId)
+    {
+        // note $this->{function_name} is the SOAP function that should exist in the WSDL
+
+        return $this->SetToSent([
+            'documentId' => $documentId
+        ]);
+    }
+}
