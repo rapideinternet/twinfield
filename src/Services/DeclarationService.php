@@ -69,7 +69,7 @@ class DeclarationService extends BaseService
 
         return $this->GetVatReturnAsXbrl([
             'documentId' => $documentId,
-            'isMessageIdRequired' => false // If set to True the MessageReferenceSupplierICT element will be filled in.
+            'isMessageIdRequired' => true // If set to True the MessageReferenceSupplierVAT element will be filled in. Which is required for sending the item to logius
         ]);
     }
 
@@ -79,7 +79,7 @@ class DeclarationService extends BaseService
 
         return $this->GetIctReturnAsXbrl([ // is this a typo? should it be icpReturnXbrl?
             'documentId' => $documentId,
-            'isMessageIdRequired' => false // If set to True the MessageReferenceSupplierICT element will be filled in.
+            'isMessageIdRequired' => true // If set to True the MessageReferenceSupplierVAT element will be filled in. Which is required for sending the item to logius
         ]);
     }
 
