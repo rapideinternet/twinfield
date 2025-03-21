@@ -25,7 +25,7 @@ class DocumentMapper {
         $status = new DocumentStatus();
         $status->setDescription($data->Status->Description);
         $status->setStepIndex($data->Status->StepIndex);
-        $status->setExtraInformation($data->Status->ExtraInformation);
+        $status->setExtraInformation($data->Status->ExtraInformation ?? null);
         $document->setStatus($status);
 
         $assignee = new DocumentAssignee();
