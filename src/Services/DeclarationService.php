@@ -56,10 +56,11 @@ class DeclarationService extends BaseService
         ]);
     }
 
-    public function summaries($officeCode): \stdClass
+    public function summaries($officeCode, $declarationYear = null): \stdClass
     {
         return $this->GetAllSummaries([
-            'companyCode' => $officeCode
+            'companyCode' => $officeCode,
+            'declarationYear' => $declarationYear,
         ]);
     }
 
