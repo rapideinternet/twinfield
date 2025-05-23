@@ -37,12 +37,12 @@ class DeclarationsApiConnector extends BaseApiConnector
         return $response->vatReturn->any ?? null;
     }
 
-    public function summaries($officeCode): array
+    public function summaries($officeCode, $declarationYear = null): array
     {
         // this seems redundant, but it is necessary to set the office code
         $this->setOffice($officeCode);
 
-        $response = $this->getDeclarationService()->summaries($officeCode);
+        $response = $this->getDeclarationService()->summaries($officeCode, $declarationYear);
 
         if (!isset($response->vatReturn->DeclarationSummary)) {
             return [];
