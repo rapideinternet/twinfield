@@ -56,11 +56,28 @@ class DeclarationService extends BaseService
         ]);
     }
 
+    /**
+     * Return als the declarations for a given year, no filtering possible
+     * @param $officeCode
+     * @param $declarationYear
+     * @return \stdClass
+     */
     public function summaries($officeCode, $declarationYear = null): \stdClass
     {
         return $this->GetAllSummaries([
             'companyCode' => $officeCode,
             'declarationYear' => $declarationYear,
+        ]);
+    }
+
+    public function getDeclarationsByYearAndSinceModified($officeCode, \DateTime $modifiedSince, $declarationYear = null, int $skip = 0, int $take = 50): \stdClass
+    {
+        return $this->GetRangeOfSummariesByDeclarationYearAndSinceModified([
+            'companyCode' => $officeCode,
+            'declarationYear' => $declarationYear,
+            'startIndex' => $skip,
+            'count' => $take,
+            'modifiedSince' => $modifiedSince->format('Y-m-d\TH:i:s'),
         ]);
     }
 
